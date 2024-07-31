@@ -60,6 +60,7 @@ getSimulatedTwoArmMeans <- function(
     )
     
     result$n_total = result$n1 + result$n2
+    result$allocation_ratio = result$n1 / result$n2
     result$creation_time = Sys.time()
     
     # set the class attribute
