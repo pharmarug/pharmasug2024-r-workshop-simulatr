@@ -34,6 +34,7 @@ getSimulatedTwoArmMeans <- function(
 
     if (is.na(seed)) {
         # TODO create a new seed if it is NA, i.e., it is undefined
+      seed = 1
     }
 
     # specify seed
@@ -46,11 +47,17 @@ getSimulatedTwoArmMeans <- function(
     # TODO save the fake data to a data frame in long format
 
     # TODO put all arguments and results to a list
-    result <- list()
-
-    # define that the result list is a class with name 'SimulationResult'
+    result <- list(n1 = n1, n2 = n2, 
+                   mean1 = mean1, mean2 = mean2, sd1 = sd1, sd2 = sd2)
+    result$data <- data.frame(
+      group = c(rep(1, n1), rep(2, n2)),
+      values = c(
+        rnorm(n = n1, mean = mean1, sd = sd1),
+        rnorm(n = n2, mean = mean2, sd = sd2)
+      )
+    )
+    # set the class attribute
     result <- structure(result, class = "SimulationResult")
-
     return(result)
 }
 
@@ -71,8 +78,13 @@ getSimulatedTwoArmMeans <- function(
 #' @export
 #'
 print.SimulationResult <- function(x, ...) {
-		# TODO optimize the output format
-    print(x, ...)
+  args <- list(n1 = x$n1, n2 = x$n2, 
+               mean1 = x$mean1, mean2 = x$mean2, sd1 = x$sd1, sd2 = x$sd2)
+  
+  print(list(
+    args = format(args), 
+    data = dplyr::tibble(x$data)
+  ), ...)
 }
 
 #'

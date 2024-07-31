@@ -17,7 +17,7 @@ URL: https://kkmann.github.io/workshop-r-swe, https://github.com/kkmann/workshop
 BugReports: https://github.com/fpahlke/simulatr/issues
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Depends: 
 	R (>= 3.5.0)
 Imports:
