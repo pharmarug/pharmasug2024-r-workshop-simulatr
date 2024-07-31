@@ -31,7 +31,9 @@ getSimulatedTwoArmMeans <- function(
         seed = NA_integer_) {
     
     # TODO use assertions to check all input arguments
-
+    checkmate::assertInt(n1, lower = 1) 
+    checkmate::assertInt(n2, lower = 1) 
+  
     if (is.na(seed)) {
         # TODO create a new seed if it is NA, i.e., it is undefined
       seed = 1
