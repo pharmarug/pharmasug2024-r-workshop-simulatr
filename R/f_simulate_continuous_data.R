@@ -58,6 +58,11 @@ getSimulatedTwoArmMeans <- function(
         rnorm(n = n2, mean = mean2, sd = sd2)
       )
     )
+    
+    result$n_total = result$n1 + result$n2
+    result$allocation_ratio = result$n1 / result$n2
+    result$creation_time = Sys.time()
+    
     # set the class attribute
     result <- structure(result, class = "SimulationResult")
     return(result)
@@ -81,10 +86,14 @@ getSimulatedTwoArmMeans <- function(
 #'
 print.SimulationResult <- function(x, ...) {
   args <- list(n1 = x$n1, n2 = x$n2, 
-               mean1 = x$mean1, mean2 = x$mean2, sd1 = x$sd1, sd2 = x$sd2)
+               mean1 = x$mean1, mean2 = x$mean2, 
+               sd1 = x$sd1, sd2 = x$sd2
+               )
   
   print(list(
     args = format(args), 
+    n_total = x$n_total,
+    create_time = format(Sys.time(), '%B %d, %Y'),
     data = dplyr::tibble(x$data)
   ), ...)
 }
