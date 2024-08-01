@@ -62,8 +62,8 @@ getSimulatedTwoArmMeans <- function(
     result$n_total = result$n1 + result$n2
     result$allocation_ratio = result$n1 / result$n2
     result$creation_time = Sys.time()
-    result$t.test = t.test(result$data$values[x$data$group == 1], 
-                           result$data$values[x$data$group == 2])
+    result$t.test = t.test(result$data$values[result$data$group == 1], 
+                           result$data$values[result$data$group == 2])
     # set the class attribute
     result <- structure(result, class = "SimulationResult")
     return(result)
