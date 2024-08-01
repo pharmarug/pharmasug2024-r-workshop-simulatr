@@ -161,3 +161,31 @@ plot.SimulationResult <- function(
           xlab = xlab,
           ylab = ylab)
 }
+
+
+#'
+#' @title
+#' Summary Simulation Result
+#'
+#' @description
+#' Generic function to summarise a \code{SimulationResult} object.
+#'
+#' @param x a \code{SimulationResult} object to summarise
+#' @param ... further arguments passed to or from other methods.
+#' 
+#' @examples
+#' x <- getSimulatedTwoArmMeans(n1 = 50, n2 = 50, mean1 = 5, mean2 = 7, sd1 = 3, sd2 = 4, seed = 123)
+#' summary(x)
+#'
+#' @export
+#'
+summary.SimulationResult <- function(x, ...) {
+  simplelm <- lm(x$data$values ~ x$data$group)
+  
+  lapply(list(
+    data = x$data,
+    lm = simplelm
+  ), summary)
+}
+
+kable <- function(x) UseMethod("kable")
