@@ -154,6 +154,10 @@ plot.SimulationResult <- function(
         main = "Continuous Fake Data", 
         xlab = "Group", 
         ylab = "Simulated Values") {
-        
-    # TODO implement the plot function
+  
+  # TODO implement the plot function
+  boxplot(x$data$values ~ x$data$group, 
+          main = main,
+          xlab = xlab,
+          ylab = ylab)
 }
