@@ -1,4 +1,3 @@
-
 #'
 #' @title
 #' Get Simluated Two Arm Means
@@ -12,7 +11,7 @@
 #'
 #' @details
 #' TODO describe
-#' 
+#'
 #' @return a list with all arguments and results; the ouput is defined as a class with name 'SimulationResult'.
 #'
 #' @examples
@@ -20,55 +19,56 @@
 #'
 #' @export
 #'
-getSimulatedTwoArmMeans <- function(
-        n1, 
-        n2, 
-        mean1, 
-        mean2, 
-        sd1, 
-        sd2,
-        alternative = c("two.sided", "less", "greater"),
-        ...,
-        seed = NA_integer_) {
-    
-    # TODO use assertions to check all input arguments
-    checkmate::assertInt(n1, lower = 1) 
-    checkmate::assertInt(n2, lower = 1) 
-  
-    if (is.na(seed)) {
-        # TODO create a new seed if it is NA, i.e., it is undefined
-      seed = 1
-    }
+getSimulatedTwoArmMeans <- function(n1,
+                                    n2,
+                                    mean1,
+                                    mean2,
+                                    sd1,
+                                    sd2,
+                                    alternative = c("two.sided", "less", "greater"),
+                                    ...,
+                                    seed = NA_integer_) {
+  # TODO use assertions to check all input arguments
+  checkmate::assertInt(n1, lower = 1)
+  checkmate::assertInt(n2, lower = 1)
 
-    # specify seed
-    if (!is.na(seed)) {
-        set.seed(seed)
-    }
+  if (is.na(seed)) {
+    # TODO create a new seed if it is NA, i.e., it is undefined
+    seed <- 1
+  }
 
-    # TODO create normal distributed random data for the two groups
+  # specify seed
+  if (!is.na(seed)) {
+    set.seed(seed)
+  }
 
-    # TODO save the fake data to a data frame in long format
+  # TODO create normal distributed random data for the two groups
 
-    # TODO put all arguments and results to a list
-    result <- list(n1 = n1, n2 = n2, 
-                   mean1 = mean1, mean2 = mean2, sd1 = sd1, sd2 = sd2)
-    result$data <- data.frame(
-      group = c(rep(1, n1), rep(2, n2)),
-      values = c(
-        rnorm(n = n1, mean = mean1, sd = sd1),
-        rnorm(n = n2, mean = mean2, sd = sd2)
-      )
+  # TODO save the fake data to a data frame in long format
+
+  # TODO put all arguments and results to a list
+  result <- list(
+    n1 = n1, n2 = n2,
+    mean1 = mean1, mean2 = mean2, sd1 = sd1, sd2 = sd2
+  )
+  result$data <- data.frame(
+    group = c(rep(1, n1), rep(2, n2)),
+    values = c(
+      rnorm(n = n1, mean = mean1, sd = sd1),
+      rnorm(n = n2, mean = mean2, sd = sd2)
     )
-    
-    result$n_total = result$n1 + result$n2
-    result$allocation_ratio = result$n1 / result$n2
-    result$creation_time = Sys.time()
-    result$t.test = t.test(result$data$values[result$data$group == 1], 
-                           result$data$values[result$data$group == 2],
-                           alternative = alternative)
-    # set the class attribute
-    result <- structure(result, class = "SimulationResult")
-    return(result)
+  )
+
+  result$n_total <- result$n1 + result$n2
+  result$allocation_ratio <- result$n1 / result$n2
+  result$creation_time <- Sys.time()
+  result$t.test <- t.test(result$data$values[result$data$group == 1],
+    result$data$values[result$data$group == 2],
+    alternative = alternative
+  )
+  # set the class attribute
+  result <- structure(result, class = "SimulationResult")
+  return(result)
 }
 
 #'
@@ -80,7 +80,7 @@ getSimulatedTwoArmMeans <- function(
 #'
 #' @param x a \code{SimulationResult} object to print.
 #' @param ... further arguments passed to or from other methods.
-#' 
+#'
 #' @examples
 #' x <- getSimulatedTwoArmMeans(n1 = 50, n2 = 50, mean1 = 5, mean2 = 7, sd1 = 3, sd2 = 4, seed = 123)
 #' print(x)
@@ -88,15 +88,16 @@ getSimulatedTwoArmMeans <- function(
 #' @export
 #'
 print.SimulationResult <- function(x, ...) {
-  args <- list(n1 = x$n1, n2 = x$n2, 
-               mean1 = x$mean1, mean2 = x$mean2, 
-               sd1 = x$sd1, sd2 = x$sd2
-               )
-  
+  args <- list(
+    n1 = x$n1, n2 = x$n2,
+    mean1 = x$mean1, mean2 = x$mean2,
+    sd1 = x$sd1, sd2 = x$sd2
+  )
+
   print(list(
-    args = format(args), 
+    args = format(args),
     n_total = x$n_total,
-    create_time = format(Sys.time(), '%B %d, %Y'),
+    create_time = format(Sys.time(), "%B %d, %Y"),
     data = dplyr::tibble(x$data)
   ), ...)
 }
@@ -113,12 +114,12 @@ print.SimulationResult <- function(x, ...) {
 #'
 #' @examples
 #' getSimulatedTwoArmMeans(n1 = 50, n2 = 50, mean1 = 5, mean2 = 7, sd1 = 3, sd2 = 4, seed = 123)
-#' 
+#'
 #' @export
 #'
 showDefault.SimulationResult <- function(x, ...) {
-		# TODO optionally change the default output function
-    print(x = x, ...)
+  # TODO optionally change the default output function
+  print(x = x, ...)
 }
 
 #'
@@ -145,21 +146,20 @@ showDefault.SimulationResult <- function(x, ...) {
 #' if (require(ggplot2)) plot(x)
 #'
 #' @importFrom rlang .data
-#' 
+#'
 #' @export
 #'
-plot.SimulationResult <- function(
-        x, 
-        ..., 
-        main = "Continuous Fake Data", 
-        xlab = "Group", 
-        ylab = "Simulated Values") {
-  
+plot.SimulationResult <- function(x,
+                                  ...,
+                                  main = "Continuous Fake Data",
+                                  xlab = "Group",
+                                  ylab = "Simulated Values") {
   # TODO implement the plot function
-  boxplot(x$data$values ~ x$data$group, 
-          main = main,
-          xlab = xlab,
-          ylab = ylab)
+  boxplot(x$data$values ~ x$data$group,
+    main = main,
+    xlab = xlab,
+    ylab = ylab
+  )
 }
 
 
@@ -172,7 +172,7 @@ plot.SimulationResult <- function(
 #'
 #' @param x a \code{SimulationResult} object to summarise
 #' @param ... further arguments passed to or from other methods.
-#' 
+#'
 #' @examples
 #' x <- getSimulatedTwoArmMeans(n1 = 50, n2 = 50, mean1 = 5, mean2 = 7, sd1 = 3, sd2 = 4, seed = 123)
 #' summary(x)
@@ -181,7 +181,7 @@ plot.SimulationResult <- function(
 #'
 summary.SimulationResult <- function(x, ...) {
   simplelm <- lm(x$data$values ~ x$data$group)
-  
+
   lapply(list(
     data = x$data,
     lm = simplelm
@@ -198,14 +198,14 @@ summary.SimulationResult <- function(x, ...) {
 #'
 #' @param x a \code{SimulationResult} object to summarise
 #' @param ... further arguments passed to or from other methods.
-#' 
+#'
 #' @examples
 #' x <- getSimulatedTwoArmMeans(n1 = 50, n2 = 50, mean1 = 5, mean2 = 7, sd1 = 3, sd2 = 4, seed = 123)
 #' kable(x)
 #'
 #' @export
 #'
-kable.SimulationResult <- function(x, ...){
+kable.SimulationResult <- function(x, ...) {
   knitr::kable(x$data, ...)
 }
 
