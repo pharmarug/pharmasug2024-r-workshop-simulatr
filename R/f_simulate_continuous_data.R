@@ -188,4 +188,26 @@ summary.SimulationResult <- function(x, ...) {
   ), summary)
 }
 
-kable <- function(x) UseMethod("kable")
+
+#'
+#' @title
+#' Kable function for SimulationResult
+#'
+#' @description
+#' Generic function to summarise a \code{SimulationResult} object.
+#'
+#' @param x a \code{SimulationResult} object to summarise
+#' @param ... further arguments passed to or from other methods.
+#' 
+#' @examples
+#' x <- getSimulatedTwoArmMeans(n1 = 50, n2 = 50, mean1 = 5, mean2 = 7, sd1 = 3, sd2 = 4, seed = 123)
+#' kable(x)
+#'
+#' @export
+#'
+kable.SimulationResult <- function(x, ...){
+  knitr::kable(x$data, ...)
+}
+
+#' @export
+kable <- function(x, ...) UseMethod("kable")
