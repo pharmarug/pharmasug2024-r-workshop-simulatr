@@ -26,7 +26,8 @@ getSimulatedTwoArmMeans <- function(
         mean1, 
         mean2, 
         sd1, 
-        sd2, 
+        sd2,
+        alternative = c("two.sided", "less", "greater"),
         ...,
         seed = NA_integer_) {
     
