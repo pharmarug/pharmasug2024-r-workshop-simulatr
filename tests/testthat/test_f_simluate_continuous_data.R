@@ -9,10 +9,12 @@ test_that("For invalid input arguments 'getSimulatedTwoArmMeans' throws meaningf
 
 test_that("With defined seed 'getSimulatedTwoArmMeans' returns reproducible results", {
   # TODO implement tests
+  expect_snapshot(getSimulatedTwoArmMeans(n1 = 50, n2 = 50, mean1 = 5, mean2 = 7, sd1 = 3, sd2 = 4, seed = 123))
 })
 
 test_that("With undefined seed 'getSimulatedTwoArmMeans' returns valid results", {
   # TODO implement tests
+  expect_snapshot(getSimulatedTwoArmMeans(n1 = 50, n2 = 50, mean1 = 5, mean2 = 7, sd1 = 3, sd2 = 4))
 })
 
 test_that("'getSimulatedTwoArmMeans' result can be printed", {
